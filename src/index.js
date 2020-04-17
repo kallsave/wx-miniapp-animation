@@ -32,6 +32,9 @@ function easeInOutQuad(t) {
 
 class Move {
   constructor(options) {
+    this.create(options)
+  }
+  create(options) {
     this._offset = multiDeepClone({}, options.offset)
     this._beginProgress = options.beginProgress || 0
     this.beginProgress = this._beginProgress
