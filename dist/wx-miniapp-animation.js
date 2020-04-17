@@ -4,10 +4,10 @@
  * Released under the MIT License.
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.WxMiniappAnimation = {}));
-}(this, (function (exports) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.WxMiniappAnimation = factory());
+}(this, (function () { 'use strict';
 
   function checkClass(o) {
     return Object.prototype.toString.call(o).slice(8, -1)
@@ -163,7 +163,7 @@
         }
       }
       const progress = this.duration ? this.timeCurrent / this.duration : 1;
-      
+
       this.stepCallback({
         transform,
         progress,
@@ -201,10 +201,6 @@
     return new Move(multiDeepClone({}, defaultOptions, options))
   };
 
-  exports.cancelAnimationFrame = cancelAnimationFrame;
-  exports.default = animation;
-  exports.requestAnimationFrame = requestAnimationFrame;
-
-  Object.defineProperty(exports, '__esModule', { value: true });
+  return animation;
 
 })));

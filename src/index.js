@@ -5,7 +5,7 @@ const noop = function () {}
 
 let timeStart
 
-export const requestAnimationFrame = (() => {
+const requestAnimationFrame = (() => {
   return function (cb) {
     return setTimeout(() => {
       let timestamp = new Date().getTime()
@@ -18,7 +18,7 @@ export const requestAnimationFrame = (() => {
   }
 })()
 
-export const cancelAnimationFrame = (() => {
+const cancelAnimationFrame = (() => {
   return function (id) {
     return clearTimeout(id)
   }
@@ -113,7 +113,7 @@ class Move {
       }
     }
     const progress = this.duration ? this.timeCurrent / this.duration : 1
-    
+
     this.stepCallback({
       transform,
       progress,

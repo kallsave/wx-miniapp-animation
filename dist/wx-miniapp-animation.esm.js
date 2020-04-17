@@ -157,7 +157,7 @@ class Move {
       }
     }
     const progress = this.duration ? this.timeCurrent / this.duration : 1;
-    
+
     this.stepCallback({
       transform,
       progress,
@@ -196,4 +196,3 @@ const animation = (options) => {
 };
 
 export default animation;
-export { cancelAnimationFrame, requestAnimationFrame };
