@@ -1,18 +1,18 @@
 import { multiDeepClone } from './util/lang'
 
 const DEFAULT_INTERVAL = 100 / 6
-const noop = function () {}
+const noop = function () { }
 
 let timeStart
 
 const requestAnimationFrame = (() => {
   return function (cb) {
     return setTimeout(() => {
-      let timestamp = new Date().getTime()
+      const timestamp = new Date().getTime()
       if (!timeStart) {
         timeStart = timestamp
       }
-      let timeCurrent = timestamp - timeStart
+      const timeCurrent = timestamp - timeStart
       cb(timeCurrent)
     }, DEFAULT_INTERVAL)
   }
@@ -24,17 +24,13 @@ const cancelAnimationFrame = (() => {
   }
 })()
 
-
-// 时间占比
+// t: 时间占比
 function easeInOutQuad(t) {
   return 1 - (--t * t * t * t)
 }
 
 class Move {
   constructor(options) {
-    this.create(options)
-  }
-  create(options) {
     this._offset = multiDeepClone({}, options.offset)
     this._beginProgress = options.beginProgress || 0
     this.beginProgress = this._beginProgress
@@ -103,19 +99,18 @@ class Move {
   }
   setTransform() {
     let transform = ''
-    for (let key in this.offset) {
+    const progress = this.duration ? this.timeCurrent / this.duration : 1
+
+    for (const key in this.offset) {
       const begin = this.offset[key].begin
       const end = this.offset[key].end
-      // DEV: easing没用上
       if (this.timeCurrent < this.duration) {
-        const now = this.timeCurrent / this.duration
-        const next = (end - begin) * now + begin
+        const next = (end - begin) * progress * this.easing(progress) + begin
         transform += `${key}(${next}px) `
       } else {
         transform += `${key}(${end}px) `
       }
     }
-    const progress = this.duration ? this.timeCurrent / this.duration : 1
 
     this.stepCallback({
       transform,
