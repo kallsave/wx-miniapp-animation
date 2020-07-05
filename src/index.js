@@ -149,4 +149,6 @@ const animation = (options) => {
   return new Move(multiDeepClone({}, defaultOptions, options))
 }
 
+animation.version = 'VERSION'
+
 export default animation

@@ -1,18 +1,18 @@
 const path = require('path')
-const cjs = require('rollup-plugin-commonjs')
-const node = require('rollup-plugin-node-resolve')
-const babel = require('rollup-plugin-babel')
+const cjs = require('@rollup/plugin-commonjs')
+const node = require('@rollup/plugin-node-resolve')
+const replace = require('@rollup/plugin-replace')
 const eslint = require('rollup-plugin-eslint').eslint
 
-const util = require('./util')
-const version = require('../package.json').version
-const name = require('../package.json').name
-const apiName = util.createApiName(name)
+const package = require('../package.json')
+const author = package.author
+const name = package.name
+const version = package.version
 
 const banner =
   '/*!\n' +
   ` * ${name}.js v${version}\n` +
-  ` * (c) 2019-${new Date().getFullYear()} kallsave\n` +
+  ` * (c) 2019-${new Date().getFullYear()} ${author}\n` +
   ' * Released under the MIT License.\n' +
   ' */'
 
@@ -21,6 +21,10 @@ const resolve = (p) => {
 }
 
 const plugins = [
+  replace({
+    include: 'src/index.js',
+    VERSION: version,
+  }),
   eslint({
     include: [
       resolve('src/**/*.js')
@@ -34,29 +38,12 @@ const buildMap = {
   esm: {
     input: resolve('src/index.js'),
     output: {
-      file: resolve(`dist/${name}.esm.js`),
-      format: 'es',
-      banner: banner
-    },
-  },
-  main: {
-    input: resolve('src/index.js'),
-    output: {
       file: resolve(`dist/${name}.js`),
-      format: 'umd',
-      name: apiName,
+      format: 'esm',
       banner: banner
     },
+    plugins: plugins,
   },
-  min: {
-    input: resolve('src/index.js'),
-    output: {
-      file: resolve(`dist/${name}.min.js`),
-      format: 'umd',
-      name: apiName,
-      banner: banner
-    },
-  }
 }
 
 module.exports = buildMap

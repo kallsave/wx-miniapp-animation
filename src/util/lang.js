@@ -1,40 +1,49 @@
-export function checkClass(o) {
-  return Object.prototype.toString.call(o).slice(8, -1)
+const hasOwnProperty = Object.prototype.hasOwnProperty
+
+export function hasOwn(obj, key) {
+  return hasOwnProperty.call(obj, key)
 }
 
-function deepClone(o) {
+const _toString = Object.prototype.toString
+
+export function toRawType(value) {
+  return _toString.call(value).slice(8, -1)
+}
+
+export function deepClone(value) {
   let ret
-  let instance = checkClass(o)
-  if (instance === 'Array') {
-    ret = []
-  } else if (instance === 'Object') {
+  const type = toRawType(value)
+
+  if (type === 'Object') {
     ret = {}
+  } else if (type === 'Array') {
+    ret = []
   } else {
-    return o
+    return value
   }
 
-  for (const key in o) {
-    const copy = o[key]
+  Object.keys(value).forEach((key) => {
+    const copy = value[key]
     ret[key] = deepClone(copy)
-  }
+  })
 
   return ret
 }
 
-function deepAssign(to, from) {
-  for (const key in from) {
-    if (!to[key] || typeof to[key] !== 'object') {
-      to[key] = from[key]
+export function deepAssign(origin, mixin) {
+  for (const key in mixin) {
+    if (!origin[key] || typeof origin[key] !== 'object') {
+      origin[key] = mixin[key]
     } else {
-      deepAssign(to[key], from[key])
+      deepAssign(origin[key], mixin[key])
     }
   }
 }
 
 export function multiDeepClone(target, ...rest) {
   for (let i = 0; i < rest.length; i++) {
-    const source = deepClone(rest[i])
-    deepAssign(target, source)
+    const clone = deepClone(rest[i])
+    deepAssign(target, clone)
   }
   return target
 }
