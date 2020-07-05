@@ -1,5 +1,5 @@
 /*!
- * wx-miniapp-animation.js v0.0.2
+ * wx-miniapp-animation.js v0.0.3
  * (c) 2019-2020 kallsave <415034609@qq.com>
  * Released under the MIT License.
  */
@@ -196,6 +196,6 @@ const animation = (options) => {
   return new Move(multiDeepClone({}, defaultOptions, options))
 };
 
-animation.version = '0.0.2';
+animation.version = '0.0.3';
 
 export default animation;

@@ -1,6 +1,6 @@
 {
   "name": "wx-miniapp-animation",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "wx miniapp animation",
   "main": "dist/wx-miniapp-animation.js",
   "module": "dist/wx-miniapp-animation.esm.js",
