@@ -4,10 +4,10 @@ const node = require('@rollup/plugin-node-resolve')
 const replace = require('@rollup/plugin-replace')
 const eslint = require('rollup-plugin-eslint').eslint
 
-const package = require('../package.json')
-const author = package.author
-const name = package.name
-const version = package.version
+const pack = require('../package.json')
+const author = pack.author
+const name = pack.name
+const version = pack.version
 
 const banner =
   '/*!\n' +

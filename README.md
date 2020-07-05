@@ -8,7 +8,9 @@ wx-miniapp-animation
 
 使用
 -----------
+在微信开发者工具中先构建npm生成miniprogram_npm文件夹
 ```javascript
+import animation from './miniprogram_npm/wx-miniapp-animation/index'
 
 // example
 Page({
