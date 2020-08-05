@@ -56,15 +56,6 @@ class Move {
       }
     }
   }
-  start() {
-    this.clearOffset()
-    this.requestAnimationFrameId = requestAnimationFrame((timeCurrent) => {
-      this.timeStart = timeCurrent
-      timeCurrent += this.beginProgress * this.duration
-      this.isRunning = true
-      this.loop(timeCurrent)
-    })
-  }
   loop(timeCurrent) {
     if (!this.isRunning) {
       return
@@ -117,7 +108,17 @@ class Move {
       progress,
     })
   }
-  stop() {
+  start() {
+    this.clearOffset()
+    this.cleanRunning()
+    this.requestAnimationFrameId = requestAnimationFrame((timeCurrent) => {
+      this.timeStart = timeCurrent
+      timeCurrent += this.beginProgress * this.duration
+      this.isRunning = true
+      this.loop(timeCurrent)
+    })
+  }
+  cleanRunning() {
     this.isRunning = false
     cancelAnimationFrame(this.requestAnimationFrameId)
   }
@@ -130,8 +131,7 @@ class Move {
     this.start()
   }
   destroy() {
-    this.isRunning = false
-    cancelAnimationFrame(this.requestAnimationFrameId)
+    this.cleanRunning()
   }
 }
 

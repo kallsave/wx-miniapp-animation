@@ -1,5 +1,5 @@
 /*!
- * wx-miniapp-animation.js v0.0.3
+ * wx-miniapp-animation.js v1.0.0
  * (c) 2019-2020 kallsave <415034609@qq.com>
  * Released under the MIT License.
  */
@@ -103,15 +103,6 @@ class Move {
       };
     }
   }
-  start() {
-    this.clearOffset();
-    this.requestAnimationFrameId = requestAnimationFrame((timeCurrent) => {
-      this.timeStart = timeCurrent;
-      timeCurrent += this.beginProgress * this.duration;
-      this.isRunning = true;
-      this.loop(timeCurrent);
-    });
-  }
   loop(timeCurrent) {
     if (!this.isRunning) {
       return
@@ -164,7 +155,17 @@ class Move {
       progress,
     });
   }
-  stop() {
+  start() {
+    this.clearOffset();
+    this.cleanRunning();
+    this.requestAnimationFrameId = requestAnimationFrame((timeCurrent) => {
+      this.timeStart = timeCurrent;
+      timeCurrent += this.beginProgress * this.duration;
+      this.isRunning = true;
+      this.loop(timeCurrent);
+    });
+  }
+  cleanRunning() {
     this.isRunning = false;
     cancelAnimationFrame(this.requestAnimationFrameId);
   }
@@ -177,8 +178,7 @@ class Move {
     this.start();
   }
   destroy() {
-    this.isRunning = false;
-    cancelAnimationFrame(this.requestAnimationFrameId);
+    this.cleanRunning();
   }
 }
 
@@ -196,6 +196,6 @@ const animation = (options) => {
   return new Move(multiDeepClone({}, defaultOptions, options))
 };
 
-animation.version = '0.0.3';
+animation.version = '1.0.0';
 
 export default animation;
